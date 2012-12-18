@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Timeline</title>
+	<script type="text/javascript" src="canvas-1.2.min.js"></script>
+	<style type="text/css">
+	#canvas {
+		width: 100%;
+		height: 80px;
+		background-color: #ccc;
+	}
+
+	</style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript">
+
+//just a prototype!!! thelei katharisma!!!!
+//auta tha ginontai update se kathe ajax request
+var min = 0;
+var max = 100; //number of tweets
+
+var flag = true;
+var position = 10;
+var step = 10;
+var barWidth = 5;
+var rightEnd = 200;// Math.floor(0.8*canvas.width);
+	
+var barsVals = new Array();
+var barsPos = new Array();
+		
+var canvas = new Canvas('canvas', 25, function(){
+	
+		// Clear the canvas
+	this.clear();
+	this.strokeColor();
+	this.strokeStyle('#00FF00',barWidth,CAP.SQUARE);
+		
+	for(var i=0;i<barsPos.length;i++){
+	var normalizedVal = Math.floor(this.height*((barsVals[i] - min)/(max - min)));
+	var pos = barsPos[i];
+	
+	if(position > rightEnd){
+	//var str = position+" pos: " +pos;
+	//alert(str);
+		pos = pos - step;
+		barsPos[i] = pos;
+	}
+	this.strokeLine(pos, this.height, pos, this.height-normalizedVal);	
+	}
+	if(position > rightEnd){
+		position = position - step;
+	}
+		
+});
+	
+canvas.onMouseDown = function(x,y,btn){
+
+if(flag){
+barsPos.push(position);
+flag = false;
+}
+else
+{
+position = position + step;
+barsPos.push(position);
+}
+
+var value = Math.floor(Math.random()*500);
+
+if(max < value){
+max = value;
+}
+barsVals.push(value);
+
+//canvas.renderSingleFrame();
+}
+	
+	
+    </script>
+</body>
+</html>
